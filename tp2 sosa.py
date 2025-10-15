@@ -62,5 +62,8 @@ if metodo=="mosaico":
 else:
     print("El metodo seleccionado no esta entre las opciones")
 
+def open_image(path:str):
+    img= Image.open(path).convert("RGB")
+    return np.array(img)
 
-banana 
+

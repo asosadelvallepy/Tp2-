@@ -66,4 +66,19 @@ def open_image(path:str):
     img= Image.open(path).convert("RGB")
     return np.array(img)
 
+def vitral (imagen,n,seed):
 
+
+    if seed is not None:
+        random=np.random.default_rng(seed)
+    else:
+        random= np.random.default_rng()
+
+        alto,ancho,rgb= imagen
+
+        ys= random.integers(0,alto,n)
+        xs=random.integers(ancho,0,n)
+        matriz= np.stack([ys,xs],1)
+
+        gy=np.arrange(alto)[:, None]
+        gx=np.arrange(ancho)[None, :]

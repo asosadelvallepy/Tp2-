@@ -27,7 +27,7 @@ if metodo=="vitral":
 
     ruta_guardar_imagen= input("Seleccione la ruta para guardar imagen procesada:")
 
-if metodo=="mosaico":
+elif metodo=="mosaico":
     
     variance_threshold=input( "Ingrese el umbral de varianza (default=150):")
     

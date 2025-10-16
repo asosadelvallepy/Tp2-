@@ -66,7 +66,8 @@ def open_image(path:str):
     img= Image.open(path).convert("RGB")
     return np.array(img)
 
-def vitral (imagen,n,seed):
+
+def puntos(imagen,n,seed):
 
 
     if seed is not None:
@@ -79,6 +80,14 @@ def vitral (imagen,n,seed):
         ys= random.integers(0,alto,n)
         xs=random.integers(ancho,0,n)
         matriz= np.stack([ys,xs],1)
+        return matriz
 
-        gy=np.arrange(alto)[:, None]
-        gx=np.arrange(ancho)[None, :]
+    gy=np.arrange(alto)[:, None]
+    gx=np.arrange(ancho)[None, :]
+    
+def calc_dist(gy,gx,ys,xs,metrica):
+    
+    if metrica=="manhattan":
+        return np.abs(gy-ys)+np.abs(gx-xs)
+    elif metrica=="euclidean":
+        return (gy-ys)**2 + (gx-xs)**2

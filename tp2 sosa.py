@@ -82,9 +82,6 @@ def puntos(imagen,n,seed):
         xs=random.integers(ancho,0,n)
         matriz= np.stack([ys,xs],1)
         return matriz
-
-    gy=np.arrange(alto)[:, None]
-    gx=np.arrange(ancho)[None, :]
     
 def calc_dist(gy,gx,ys,xs,metrica):
     
@@ -92,3 +89,23 @@ def calc_dist(gy,gx,ys,xs,metrica):
         return np.abs(gy-ys)+np.abs(gx-xs)
     elif metrica=="euclidean":
         return (gy-ys)**2 + (gx-xs)**2
+
+def cercanas(alto,ancho,sitio,metrica)
+    gy=np.arange(alto)[:, None]
+    gx=np.arange(ancho)[None, :]
+
+    menor_dist=None 
+    punto_cerc= None
+
+    for i, (sy,sx) in enumerate(sitio):
+        dist=calc_dist(gy,gx,sy,sx,metrica)
+        if menor_dist is None:
+            menor_dist= dist
+            punto_cerc= np.full_like(dist,i)
+        else:
+            matriz_chequeo= dist<menor_dist
+            menor_dist[matriz_chequeo]= dist[matriz_chequeo]
+            punto_cerc[matriz_chequeo]=i
+
+    return punto_cerc.  # retorna (alto,ancho)
+

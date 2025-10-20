@@ -1,66 +1,7 @@
 import numpy as np
 from PIL import Image
+import os
 
-#inputs del programa
-
-ruta_imagen= input("Ingrese la ruta de la imagen:")
-metodo= input("Seleccione el metodo:").lower().strip()
-
-if metodo=="vitral":
-
-    n= input("Ingrese la cantidad de puntos:")
-
-    if n=="":
-        n=1000 #por default es 1000
-    else:
-        n=int(n)
-        if n<0:
-            print("La cantidad de puntos debe ser mayor a 0")
-
-    metrica=input("Ingrese la metrica de distancia (euclidean/manhattan):").lower()
-    if metrica!= "euclidean" and metrica!= "manhattan":
-        print("La metrica seleccionada no esta dentro de las opciones por default es euclidean")
-        metrica="euclidean" #por default es euclidean
-    
-
-    ruta_guardar_imagen= input("Seleccione la ruta para guardar imagen procesada:")
-
-elif metodo=="mosaico":
-    
-    variance_threshold=input( "Ingrese el umbral de varianza (default=150):")
-    
-    if variance_threshold=="":
-        variance_threshold=150 #por default es 150
-    else:
-        variance_threshold=int(variance_threshold)
-        if variance_threshold<0:
-            print("El umbral de varianza debe ser mayor a 0")
-
-    min_size=input("Ingrese el tamaño mínimo de bloque (default=20):")
-    
-    if min_size=="":
-        min_size=20 #por default es 20
-    else:
-        min_size=int(min_size)
-        if min_size<0:
-            print("EL tamaño minimo de bloque debe ser un numero positivo")
-
-    max_passes= input("Ingrese el número máximo de subdivisiones (default=10):")
-    if max_passes=="":
-        max_passes=10 #por default es 10 
-    else:
-        max_passes=int(max_passes)
-        if max_passes<0:
-            print("El numero maximo de subdivisiones debe ser un numero positivo")
-
-
-    bordes_bloques= input("¿Dibujar bordes en los bloques? (si/no):")
-    ruta_guardar_imagen= input("Seleccione la ruta para guardar la imagen procesada:")
-
-else:
-    print("El metodo seleccionado no esta entre las opciones")
-
-#------------------------------------------------------------------------------------------
 
 
 # Metodo para transformar imagen en algo que podamos usar
@@ -171,7 +112,7 @@ def aplicar_vitral(img: np.ndarray, n: int, metrica: str) -> np.ndarray:
 
 def calcular_estadisticas_bloque(bloque: np.ndarray):
     """
-    Calcula dos cosas importantes de un bloque (una parte de la imagen):
+    Calcula dos cosas de un bloque (una parte de la imagen):
     1. Cuánto varían sus colores (varianza promedio RGB)
     2. Cuál es su color promedio (promedio de R, G y B)
     """
@@ -179,10 +120,10 @@ def calcular_estadisticas_bloque(bloque: np.ndarray):
     bloque_float = bloque.astype(np.float32)
 
     # Calculamos el color promedio de todos los píxeles en R, G y B
-    color_promedio = bloque_float.mean(axis=(0, 1))  # → [prom_R, prom_G, prom_B]
+    color_promedio = bloque_float.mean(axis=(0, 1))  
 
     # Calculamos la varianza (qué tanto cambian los colores dentro del bloque)
-    var_por_canal = bloque_float.var(axis=(0, 1))     # → [var_R, var_G, var_B]
+    var_por_canal = bloque_float.var(axis=(0, 1))     
 
     # Tomamos el promedio de las varianzas de los 3 canales
     varianza_promedio = float(var_por_canal.mean())
@@ -244,7 +185,7 @@ def mosaico_adaptativo_simple(imagen: np.ndarray,
     # Cada bloque está representado como: (fila_inicial, fila_final, col_inicial, col_final, nivel)
     pila = [(0, alto, 0, ancho, 0)]
 
-    # Mientras haya bloques en la pila...
+    # Mientras haya bloques en la pila:
     while pila:
         # Sacamos el último bloque
         top, bottom, left, right, nivel = pila.pop()
@@ -294,6 +235,67 @@ def mosaico_adaptativo_simple(imagen: np.ndarray,
 #funcion principal:
 def main():
     
+    ruta_imagen= input("Ingrese la ruta de la imagen:")
+    metodo= input("Seleccione el metodo:").lower().strip()
+
+    if metodo=="vitral":
+
+        n= input("Ingrese la cantidad de puntos:")
+
+        if n=="":
+            n=1000 #por default es 1000
+        else:
+            n=int(n)
+            if n<0:
+                print("La cantidad de puntos debe ser mayor a 0")
+
+        metrica=input("Ingrese la metrica de distancia (euclidean/manhattan):").lower()
+        if metrica!= "euclidean" and metrica!= "manhattan":
+            print("La metrica seleccionada no esta dentro de las opciones por default es euclidean")
+            metrica="euclidean" #por default es euclidean
+    
+
+        ruta_guardar_imagen= input("Seleccione la ruta para guardar imagen procesada:")
+
+    elif metodo=="mosaico":
+    
+        variance_threshold=input( "Ingrese el umbral de varianza (default=150):")
+    
+        if variance_threshold=="":
+            variance_threshold=150 #por default es 150
+        else:
+            variance_threshold=int(variance_threshold)
+            if variance_threshold<0:
+                print("El umbral de varianza debe ser mayor a 0")
+
+        min_size=input("Ingrese el tamaño mínimo de bloque (default=20):")
+    
+        if min_size=="":
+            min_size=20 #por default es 20
+        else:
+            min_size=int(min_size)
+            if min_size<0:
+                print("EL tamaño minimo de bloque debe ser un numero positivo")
+
+        max_passes= input("Ingrese el número máximo de subdivisiones (default=10):")
+        if max_passes=="":
+            max_passes=10 #por default es 10 
+        else:
+            max_passes=int(max_passes)
+            if max_passes<0:
+                print("El numero maximo de subdivisiones debe ser un numero positivo")
+
+        bordes_bloques= input("¿Dibujar bordes en los bloques? (si/no):").lower()
+        if bordes_bloques!="si" and bordes_bloques!="no":
+            bordes_bloques="no"
+
+        ruta_guardar_imagen= input("Seleccione la ruta para guardar la imagen procesada:")
+
+    else:
+        print("El metodo seleccionado no esta entre las opciones")
+
+    if not os.path.isfile(ruta_imagen):
+        raise FileNotFoundError(f"No se encontró la imagen en la ruta especificada: '{ruta_imagen}'")
     imagen= open_image(ruta_imagen) # abre la imagen y la convierte a RGB
 
     if metodo=="vitral": # si el metodo es vitral se ejecuta el if 
@@ -304,6 +306,7 @@ def main():
         print("Vitral guardado en:", ruta_guardar_imagen)
 
         Image.open(ruta_guardar_imagen).show() # te abre la foto automaticamente
+
     elif metodo=="mosaico":
         # normalizo tipos
         vth = float(variance_threshold)
@@ -315,17 +318,21 @@ def main():
         dibujar = (dibujar in ("si", "sí", "s", "y", "yes", "true", "1"))
 
         resultado = mosaico_adaptativo_simple(
-            imagen,
-            variance_threshold=vth,
-            min_size=mins,
-            max_passes=passes,
-            dibujar_bordes=dibujar
-        )
+                    imagen,
+                    umbral_varianza=vth,
+                    tamano_minimo=mins,
+                    max_niveles=passes,
+                    con_bordes=dibujar)
 
-        Image.fromarray(resultado).save(ruta_guardar_imagen)
-        print("Mosaico guardado en:", ruta_guardar_imagen)
-        Image.open(ruta_guardar_imagen).show()
+    Image.fromarray(resultado).save(ruta_guardar_imagen)
+    print(("Vitral" if metodo == "vitral" else "Mosaico"), "guardado en:", ruta_guardar_imagen)
+    Image.open(ruta_guardar_imagen).show()
 
 
 if __name__=="__main__":
     main()
+
+
+
+
+

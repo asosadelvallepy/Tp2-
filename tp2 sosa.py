@@ -157,15 +157,12 @@ def mosaico_adaptativo_simple(imagen: np.ndarray,
 
     La idea es:
     1. Empezar con toda la imagen como un bloque grande.
-    2. Si ese bloque tiene mucha diferencia de colores (varianza alta),
-       lo partimos en 4 cuadrantes.
+    2. Si ese bloque tiene mucha diferencia de colores (varianza alta), lo partimos en 4 cuadrantes.
     3. Repetimos el proceso para cada bloque nuevo.
-    4. Cuando los bloques son chicos o tienen colores parecidos,
-       los pintamos con su color promedio.
+    4. Cuando los bloques son chicos o tienen colores parecidos, los pintamos con su color promedio.
 
     Parámetros:
       - umbral_varianza: controla cuánta diferencia de color hace falta para subdividir.
-                         (más chico = más detalle, más grande = menos subdivisiones)
       - tamano_minimo: evita bloques demasiado pequeños.
       - max_niveles: limita cuántas veces se puede subdividir.
       - con_bordes: True para dibujar bordes negros entre los bloques.
@@ -174,7 +171,7 @@ def mosaico_adaptativo_simple(imagen: np.ndarray,
     # Guardamos el alto y ancho de la imagen original
     alto, ancho = imagen.shape[:2]
 
-    # Creamos una imagen vacía del mismo tamaño donde pondremos el resultado
+    # Creamos una imagen vacía del mismo tamaño donde va el resultado
     salida = np.zeros_like(imagen)
 
     # Guardamos los bloques finales para dibujar los bordes después

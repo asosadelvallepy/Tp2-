@@ -3,7 +3,6 @@ from PIL import Image
 
 
 
-
 # Metodo para transformar imagen en algo que podamos usar
 
 def open_image(path:str)->np.ndarray:
@@ -247,7 +246,8 @@ def main():
         else:
             n=int(n)
             if n<0:
-                print("La cantidad de puntos debe ser mayor a 0")
+                print("La cantidad de puntos debe ser mayor a 0, por default es 1000")
+                n=1000
 
         metrica=input("Ingrese la metrica de distancia (euclidean/manhattan):").lower()
         if metrica!= "euclidean" and metrica!= "manhattan":
@@ -266,7 +266,8 @@ def main():
         else:
             variance_threshold=int(variance_threshold)
             if variance_threshold<0:
-                print("El umbral de varianza debe ser mayor a 0")
+                print("El umbral de varianza debe ser mayor a 0, por default es 150")
+                variance_threshold=150
 
         min_size=input("Ingrese el tamaño mínimo de bloque (default=20):")
     
@@ -275,7 +276,8 @@ def main():
         else:
             min_size=int(min_size)
             if min_size<0:
-                print("EL tamaño minimo de bloque debe ser un numero positivo")
+                print("EL tamaño minimo de bloque debe ser un numero positivo, por default es 20")
+                min_size=20
 
         max_passes= input("Ingrese el número máximo de subdivisiones (default=10):")
         if max_passes=="":
@@ -283,10 +285,12 @@ def main():
         else:
             max_passes=int(max_passes)
             if max_passes<0:
-                print("El numero maximo de subdivisiones debe ser un numero positivo")
+                print("El numero maximo de subdivisiones debe ser un numero positivo, por default es 10")
+                max_passes=10
 
-        bordes_bloques= input("¿Dibujar bordes en los bloques? (si/no):").lower()
+        bordes_bloques= input("¿Dibujar bordes en los bloques? (si/no) :").lower()
         if bordes_bloques!="si" and bordes_bloques!="no":
+            print("La respuesta no esta entre las opciones, por default la respuesta es no")
             bordes_bloques="no"
 
         ruta_guardar_imagen= input("Seleccione la ruta para guardar la imagen procesada:")
@@ -314,7 +318,7 @@ def main():
 
         # interpretar si/no de bordes
         dibujar = str(bordes_bloques).strip().lower()
-        dibujar = (dibujar in ("si", "sí", "s", "y", "yes", "true", "1"))
+        dibujar = (dibujar in ("si", "sí"))
 
         resultado = mosaico_adaptativo_simple(
                     imagen,
@@ -330,6 +334,7 @@ def main():
 
 if __name__=="__main__":
     main()
+
 
 
 

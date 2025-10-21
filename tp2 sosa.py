@@ -1,6 +1,6 @@
 import numpy as np
 from PIL import Image
-import os
+
 
 
 
@@ -294,8 +294,7 @@ def main():
     else:
         print("El metodo seleccionado no esta entre las opciones")
 
-    if not os.path.isfile(ruta_imagen):
-        raise FileNotFoundError(f"No se encontró la imagen en la ruta especificada: '{ruta_imagen}'")
+    
     imagen= open_image(ruta_imagen) # abre la imagen y la convierte a RGB
 
     if metodo=="vitral": # si el metodo es vitral se ejecuta el if 

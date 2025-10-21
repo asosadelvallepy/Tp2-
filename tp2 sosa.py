@@ -1,8 +1,6 @@
 import numpy as np
 from PIL import Image
 
-
-
 # Metodo para transformar imagen en algo que podamos usar
 
 def open_image(path:str)->np.ndarray:
@@ -228,6 +226,8 @@ def mosaico_adaptativo_simple(imagen: np.ndarray,
     # Retornamos la imagen procesada
     return salida
 
+
+#------------------------------------------------------------------------------------------
 #funcion principal:
 def main():
     
@@ -328,6 +328,8 @@ def main():
     print(("Vitral" if metodo == "vitral" else "Mosaico"), "guardado en:", ruta_guardar_imagen)
     Image.open(ruta_guardar_imagen).show()
 
+#------------------------------------------------------------------------------------------
+#main 
 
 if __name__=="__main__":
     main()
